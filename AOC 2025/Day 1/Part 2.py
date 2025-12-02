@@ -4,6 +4,7 @@ total = 0
 with open('input.txt', 'r') as file:
     for line in file:
         lines.append(line.strip())
+    file.close()
     for i in range(len(lines)):
         if lines[i][0] == 'R':
             for _ in range(int(lines[i][1:])):
