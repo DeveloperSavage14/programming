@@ -6,6 +6,7 @@ final = []
 with open('input.txt','r') as file:
     for line in file:
         coords.append(line.strip().split(','))
+        links.append([line.strip().split(',')])
 
 for i in range(len(coords)):
     for c in range(i+1, len(coords)):
@@ -13,42 +14,23 @@ for i in range(len(coords)):
         pairs.append([distance,coords[i],coords[c]])
 
 pairs.sort()
-curr.append(pairs[0][1])
-curr.append(pairs[0][2])
-links.append(curr)
-curr = []
+
 print('Pairs Sorted')
-for i in range(1,1000):
+for i in range(1,len(pairs)):
     pos1 = -1
     pos = -1
-    curr = []
     for c in range(len(links)):
         if pairs[i][1] in links[c]:
             pos1 = c
-        elif pairs[i][2] in links[c]:
+        if pairs[i][2] in links[c]:
             pos = c
-    if pos1 == -1 and pos == -1:
-        links.append([pairs[i][1],pairs[i][2]])
-    elif pos1 != -1 and pos == -1:
-        if pairs[i][2] not in links[pos1]:
-            links[pos1].append(pairs[i][2])
-    elif pos1 == -1 and pos != -1:
-        if pairs[i][1] not in links[pos]:
-            links[pos].append(pairs[i][1])
-    elif pos1 != -1 and pos != -1:
-        if pos1 == pos:
-            continue
-        else:
-            t = links[pos1]
-            s = links[pos]
-
-            for p in s:
-                if p not in t:
-                    t.append(p)
-            links.pop(pos)
+    if pos1 != -1 and pos != -1 and pos1 != pos:
+        links[pos1].extend(links[pos])
+        links.pop(pos)
+        if len(links) == 1 and i > 2:
+            u = pairs[i][-1]
+            y = pairs[i][-2]
+            ans = int(u[0]) * int(y[0])
+            print(ans)
+            break
 print('Nodes Connected')
-for i in links:
-    final.append(len(i))
-final.sort()
-total = final[-1] * final[-2] * final[-3]
-print(total)
