@@ -1,3 +1,5 @@
+import time as t
+start = t.time()
 coords = []
 pairs = []
 links = []
@@ -32,5 +34,7 @@ for i in range(1,len(pairs)):
             y = pairs[i][-2]
             ans = int(u[0]) * int(y[0])
             print(ans)
+            end = t.time() - start
             break
 print('Nodes Connected')
+print(f'Your code took {end} seconds to run')
